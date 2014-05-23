@@ -1,0 +1,54 @@
+body {
+  font-family: 'Varela Round', sans-serif;
+  background-color: #1A305B;
+  color: #484341;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+header {
+  font-size: 20px;
+  text-align: center;
+}
+
+.light-border-bottom {
+  border-bottom: 1px solid #BCC5D3;
+}
+
+.padding-bottom {
+  padding-bottom: 14px;
+}
+
+.app-container {
+  background: #F0F0F0;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  margin: 26px auto 0;
+  max-width: 350px;
+  min-height: 300px;
+  padding: 24px 0;
+  position: relative;
+  width: 80%;
+}
+.app-container:before, .app-container:after {
+  content: "";
+  height: 98%;
+  position: absolute;
+  width: 100%;
+  z-index: -1;
+}
+.app-container:before {
+  background: #fafafa;
+  box-shadow: 0 0 8px rgba(0,0,0,0.2);
+  left: -5px;
+  top: 4px;
+  -webkit-transform: rotate(-2.5deg);
+}
+.app-container:after {
+  background: #f6f6f6;
+  box-shadow: 0 0 3px rgba(0,0,0,0.2);
+  right: -3px;
+  top: 1px;
+  -webkit-transform: rotate(1.4deg);
+}
