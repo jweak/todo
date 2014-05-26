@@ -64,12 +64,12 @@ header {
 }
 
 .todo-list-item {
-  padding: 15px;
 }
 
 .dot {
-  margin-right: 20px;
-  margin-left: 5px;
+  margin-right: 15px;
+  margin-left: 20px;
+  margin-bottom: 13px;
   box-shadow: 0px 0px 1px 1px #ababab;
   background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ffffff), color-stop(1, #e0e0e0) );
   background-color:#ffffff;
@@ -100,6 +100,9 @@ header {
   overflow: hidden;
   display: inline-block;
   width: 75%;
+  padding-top: 20px;
+  padding-bottom: 15px;
+  padding-left: 15px;
 }
 
 .done > .text {
@@ -119,3 +122,26 @@ header {
 .todo-list-item .delete:hover:before {
   color: #f00;
 }
+
+.margin-left {
+  margin-left: 63px;
+}
+
+input[type=text]
+{
+  font-family: 'Varela Round', sans-serif;
+  font-size: 18px;
+  padding: 10px 0 10px 15px;
+  width: 95%;
+  color: #ccc;
+  border: 0;
+  background-color: transparent; 
+}
+
+input[type=text]:focus
+{
+  outline: none;
+  background-color: #fff;
+  color: #666;
+}
+
