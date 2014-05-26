@@ -29,7 +29,7 @@ header {
   background: #F0F0F0;
   box-shadow: 0 0 10px rgba(0,0,0,0.3);
   margin: 26px auto 0;
-  max-width: 350px;
+  max-width: 380px;
   min-height: 300px;
   padding: 24px 0;
   position: relative;
@@ -84,7 +84,6 @@ header {
 
 .dot:hover {
     background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ffffff), color-stop(1, #ffffff) );
-
 }
 
 .done > .dot {
@@ -96,10 +95,27 @@ header {
 }
 
 .text {
-  padding: 20px;
+  white-space: nowrap;
+  text-overflow:ellipsis;
+  overflow: hidden;
+  display: inline-block;
+  width: 75%;
 }
 
 .done > .text {
   text-decoration:line-through;
   color: #bbb;
+}
+
+.todo-list-item:hover .delete:before {
+  font-size: 32px;
+  color: #c00;
+  content:"\00D7";
+  margin-top: -6px;
+  position: absolute;
+  right: 20px;
+}
+
+.todo-list-item .delete:hover:before {
+  color: #f00;
 }
