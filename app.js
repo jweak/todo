@@ -9,37 +9,59 @@ if (document.readyState == "complete") {
   }
 }
 
+function State() {
+  this.todos = [];
+};
+
+State.prototype.addTodo = function(todo) {
+  this.todos.push(todo);
+}
+
+
 function TodoApp(elementId) {
   this.element = document.querySelector("." + elementId);
 
-  this.listView = new TodoListView();
+
+  this.state = new State();
+  this.state.addTodo(this.getTodo("Clean kitchen", true));
+  this.state.addTodo(this.getTodo("Pick up children from kindergarten"));
+
+  this.listView = new TodoListView(this.state.todos);
   this.textBox = new TextBox();
 }
 
-TodoApp.prototype.render = function() {
-  this.listView.render();
-  this.textBox.render();
+TodoApp.prototype.getTodo = function(todoStr, done) {
+  return {
+    text: todoStr,
+    done: done || false
+  }
+}
 
-  this.element.appendChild(this.listView.element);
-  this.element.appendChild(this.textBox.element);
+TodoApp.prototype.render = function() {
+  this.element.appendChild(this.listView.render());
+  this.element.appendChild(this.textBox.render());
 };
 
-function TodoListView() {
+function TodoListView(todos) {
   this.element = document.createElement("ul");
   this.element.className = "todo-list"
+  this.todos = todos;
+  this.template = 
+  '<li class="todo-list-item light-border-bottom __DONE__">\
+    <span class="dot"></span>\
+    <span class="text light-border-left">__TEXT__</span>\
+    <span class="delete"></span>\
+  </li>';
 };
 
 TodoListView.prototype.render = function() {
-  this.element.innerHTML = '<li class="todo-list-item light-border-bottom done">\
-          <span class="dot"></span>\
-          <span class="text light-border-left">Clean the kitchen</span>\
-          <span class="delete"></span>\
-        </li>\
-        <li class="todo-list-item light-border-bottom">\
-          <span class="dot"></span>\
-          <span class="text light-border-left">Pick up children from kindergarten</span>\
-          <span class="delete"></span>\
-        </li>';
+  var template = this.template;
+  var innerHTML = this.todos.map(function(todo) {
+    return template.replace("__TEXT__", todo.text).replace("__DONE__", todo.done ? "done" : "");
+  }).reduce(function(a, b) {
+    return a + b;
+  });
+  this.element.innerHTML = innerHTML;
   return this.element;
 };
 
