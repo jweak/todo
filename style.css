@@ -168,4 +168,5 @@ input[type=text]:focus
   font-size:12px;
   width: 75%;
   margin: 25px auto 0 auto;
+  padding-bottom: 25px;
 }

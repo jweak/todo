@@ -84,9 +84,22 @@ function TodoApp(elementId) {
   this.listView = new TodoListView();
   this.listView.addDeleteListener(this.onDelete.bind(this));
   this.listView.addToggleListener(this.onToggle.bind(this));
+  this.element.appendChild(this.listView.element);
+
   this.textBox = new TextBox();
   this.textBox.addListener(this.onNewTodo.bind(this));
+  this.element.appendChild(this.textBox.render());
+
+  this.filter = "all";
+  this.filterView = new FilterView();
+  this.filterView.addListener(this.onFilterChange.bind(this));
+  this.element.appendChild(this.filterView.element);
 }
+
+TodoApp.prototype.onFilterChange = function(filter) {
+  this.filter = filter;
+  this.render();
+};
 
 TodoApp.prototype.onDelete = function(todoId) {
   this.tasks.remove(todoId);
@@ -104,12 +117,13 @@ TodoApp.prototype.onNewTodo = function(todoStr) {
 };
 
 TodoApp.prototype.onStateChange = function() {
-  this.listView.render(this.tasks.findAll());
+  this.render();
 };
 
 TodoApp.prototype.render = function() {
-  this.element.appendChild(this.listView.render(this.tasks.findAll()));
-  this.element.appendChild(this.textBox.render());
+  var tasks = this.filter === "all" ? this.tasks.findAll() : this.tasks.findOpen();
+  this.listView.render(tasks);
+  this.filterView.render(this.filter === "all");
 };
 
 function TodoListView() {
@@ -204,6 +218,41 @@ TextBox.prototype.onKeyPress = function(event) {
       });
       event.target.value = "";
     }
+  }
+};
+
+function FilterView() {
+  this.listeners = [];
+  this.element = document.createElement("div");
+  this.element.className = "filter-container";
+  this.template = 'SHOW <span class="toggle-button __ALL__" id="all">ALL TASKS</span>' + 
+                  '<span class="toggle-button __OPEN__" id="only-open">ONLY OPEN TASKS</span>'
+  this.clickHandler = this.onClick.bind(this);
+}
+
+FilterView.prototype.addListener = function(listener) {
+  this.listeners.push(listener);
+};
+
+FilterView.prototype.render = function(allTasks) {
+  this.element.removeEventListener("click", this.clickHandler, false);
+  var html = this.template.replace("__ALL__", allTasks ? "selected" : "")
+                          .replace("__OPEN__", !allTasks ? "selected" : "");
+  this.element.innerHTML = html;
+  this.element.addEventListener("click", this.clickHandler, false);
+  return this.element;
+};
+
+FilterView.prototype.onClick = function(event) {
+  var target = event.srcElement;
+  if (target.id === "all") {
+    this.listeners.forEach(function(listener) {
+      listener("all");
+    });
+  } else if (target.id === "only-open") {
+    this.listeners.forEach(function(listener) {
+      listener("only-open");
+    });
   }
 };
 
