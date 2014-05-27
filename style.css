@@ -31,7 +31,7 @@ header {
   margin: 26px auto 0;
   max-width: 380px;
   min-height: 300px;
-  padding: 24px 0;
+  padding: 24px 0 0 0;
   position: relative;
   width: 80%;
 }
@@ -73,10 +73,7 @@ header {
   box-shadow: 0px 0px 1px 1px #ababab;
   background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ffffff), color-stop(1, #e0e0e0) );
   background-color:#ffffff;
-  border-top-left-radius:16px;
-  border-top-right-radius:16px;
-  border-bottom-right-radius:16px;
-  border-bottom-left-radius:16px;
+  border-radius:16px;
   display:inline-block;
   height:24px;
   width:24px;
@@ -100,9 +97,7 @@ header {
   overflow: hidden;
   display: inline-block;
   width: 75%;
-  padding-top: 20px;
-  padding-bottom: 15px;
-  padding-left: 15px;
+  padding: 20px 0 15px 15px;
 }
 
 .done > .text {
@@ -145,3 +140,32 @@ input[type=text]:focus
   color: #666;
 }
 
+.toggle-button {
+  background-color:transparent;
+  border-radius:26px;
+  border: 1px solid #dedede;
+  display:inline-block;
+  color:#777777;
+  font-size:12px;
+  height:26px;
+  line-height:26px;
+  text-align:center;
+  padding: 0 10px;
+  margin: 0 5px;
+}.toggle-button:hover {
+  background-color:#dedede;
+}.toggle-button:active {
+  position:relative;
+  top:1px;
+}
+
+.selected {
+  background-color:#dedede;
+}
+
+.filter-container {
+  color:#777777;
+  font-size:12px;
+  width: 75%;
+  margin: 25px auto 0 auto;
+}
