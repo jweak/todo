@@ -117,9 +117,9 @@ function TodoListView() {
   this.element.className = "todo-list";
   this.template = 
     '<li class="todo-list-item light-border-bottom __DONE__" id="__ID__">' +
-      '<span class="dot"></span>' +
-      '<span class="text light-border-left">__TEXT__</span>' + 
-      '<span class="delete"></span>' +
+      '<span class="dot" title="toggle"></span>' +
+      '<span class="text light-border-left" title="__TEXT__">__TEXT__</span>' + 
+      '<span class="delete" title="delete"></span>' +
     '</li>';
   this.deleteListeners = [];
   this.toggleListeners = [];
@@ -139,7 +139,7 @@ TodoListView.prototype.render = function(todos) {
 TodoListView.prototype.generateHTML = function(todos) {
   var template = this.template;
   var html =  todos.map(function(todo) {
-    return template.replace("__TEXT__", todo.text)
+    return template.replace(/__TEXT__/g, todo.text)
           .replace("__DONE__", todo.done ? "done" : "")
           .replace("__ID__", todo.id);
   }).reduce(function(previousValue, currentValue) {
