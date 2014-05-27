@@ -70,6 +70,7 @@ function TodoApp(elementId) {
   this.element = document.querySelector("." + elementId);
 
   this.tasks = new Task();
+  /* Initial tasks */
   this.tasks.add({ 
     text: "Clean kitchen",
     done: true
@@ -78,23 +79,28 @@ function TodoApp(elementId) {
     text: "Pick up children from kindergarten",
     done: false
   });
+  
+  this.filter = "all";
 
-  this.tasks.addListener(this.onStateChange.bind(this));
+  this.createViews();
 
+  this.tasks.addListener(this.onTasksChange.bind(this));
+}
+
+TodoApp.prototype.createViews = function() {
   this.listView = new TodoListView();
   this.listView.addDeleteListener(this.onDelete.bind(this));
   this.listView.addToggleListener(this.onToggle.bind(this));
   this.element.appendChild(this.listView.element);
 
-  this.textBox = new TextBox();
-  this.textBox.addListener(this.onNewTodo.bind(this));
-  this.element.appendChild(this.textBox.render());
-
-  this.filter = "all";
+  this.TextBoxView = new TextBoxView();
+  this.TextBoxView.addListener(this.onNewTodo.bind(this));
+  this.element.appendChild(this.TextBoxView.render());
+  
   this.filterView = new FilterView();
   this.filterView.addListener(this.onFilterChange.bind(this));
   this.element.appendChild(this.filterView.element);
-}
+};
 
 TodoApp.prototype.onFilterChange = function(filter) {
   this.filter = filter;
@@ -116,7 +122,7 @@ TodoApp.prototype.onNewTodo = function(todoStr) {
   });
 };
 
-TodoApp.prototype.onStateChange = function() {
+TodoApp.prototype.onTasksChange = function() {
   this.render();
 };
 
@@ -154,8 +160,8 @@ TodoListView.prototype.generateHTML = function(todos) {
   var template = this.template;
   var html =  todos.map(function(todo) {
     return template.replace(/__TEXT__/g, todo.text)
-          .replace("__DONE__", todo.done ? "done" : "")
-          .replace("__ID__", todo.id);
+                   .replace("__DONE__", todo.done ? "done" : "")
+                   .replace("__ID__", todo.id);
   }).reduce(function(previousValue, currentValue) {
     return previousValue + currentValue;
   }, "");
@@ -185,17 +191,17 @@ TodoListView.prototype.onClick = function(event) {
   }
 };
 
-function TextBox() {
+function TextBoxView() {
   this.listeners = [];
   this.element = document.createElement("div");
-  this.element.className = "textbox light-border-bottom";
+  this.element.className = "light-border-bottom";
 }
 
-TextBox.prototype.addListener = function(listener) {
+TextBoxView.prototype.addListener = function(listener) {
   this.listeners.push(listener);
 };
 
-TextBox.prototype.render = function() {
+TextBoxView.prototype.render = function() {
   var input = this.getInputElement();
   if (input) {
     input.removeEventListener("keypress", this.onKeyPress.bind(this), false);
@@ -205,11 +211,11 @@ TextBox.prototype.render = function() {
   return this.element;
 };
 
-TextBox.prototype.getInputElement = function() {
+TextBoxView.prototype.getInputElement = function() {
   return this.element.querySelector("input");
 };
 
-TextBox.prototype.onKeyPress = function(event) {
+TextBoxView.prototype.onKeyPress = function(event) {
   if (event.keyCode === 13) {
     var inputString = event.target.value;
     if (inputString !== "") {
@@ -226,7 +232,7 @@ function FilterView() {
   this.element = document.createElement("div");
   this.element.className = "filter-container";
   this.template = 'SHOW <span class="toggle-button __ALL__" id="all">ALL TASKS</span>' + 
-                  '<span class="toggle-button __OPEN__" id="only-open">ONLY OPEN TASKS</span>'
+                  '<span class="toggle-button __OPEN__" id="only-open">ONLY OPEN TASKS</span>';
   this.clickHandler = this.onClick.bind(this);
 }
 

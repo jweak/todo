@@ -29,7 +29,8 @@ header {
   background: #F0F0F0;
   box-shadow: 0 0 10px rgba(0,0,0,0.3);
   margin: 26px auto 0;
-  max-width: 380px;
+  max-width: 370px;
+  min-width: 370px;
   min-height: 300px;
   padding: 24px 0 0 0;
   position: relative;
@@ -69,7 +70,7 @@ header {
 .dot {
   margin-right: 15px;
   margin-left: 20px;
-  margin-bottom: 13px;
+  margin-bottom: 10px;
   box-shadow: 0px 0px 1px 1px #ababab;
   background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ffffff), color-stop(1, #e0e0e0) );
   background-color:#ffffff;
@@ -96,8 +97,9 @@ header {
   text-overflow:ellipsis;
   overflow: hidden;
   display: inline-block;
-  width: 75%;
+  width: 70%;
   padding: 20px 0 15px 15px;
+  margin-bottom: -5px;
 }
 
 .done > .text {
@@ -119,7 +121,7 @@ header {
 }
 
 .margin-left-column {
-  margin-left: 63px;
+  margin-left: 59px;
 }
 
 input[type=text]
@@ -152,9 +154,11 @@ input[type=text]:focus
   text-align:center;
   padding: 0 10px;
   margin: 0 5px;
-}.toggle-button:hover {
+}
+.toggle-button:hover {
   background-color:#dedede;
-}.toggle-button:active {
+}
+.toggle-button:active {
   position:relative;
   top:1px;
 }
@@ -166,7 +170,7 @@ input[type=text]:focus
 .filter-container {
   color:#777777;
   font-size:12px;
-  width: 75%;
+  width: 77%;
   margin: 25px auto 0 auto;
   padding-bottom: 25px;
 }
