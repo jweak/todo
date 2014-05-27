@@ -10,22 +10,22 @@ if (document.readyState == "complete") {
 }
 
 function Task() {
-  this.todos = [];
-  this.todoIdCounter = 0;
+  this.tasks = [];
+  this.idCounter = 0;
   this.listeners = [];
 };
 
-Task.prototype.add = function(todo) {
-  todo.id = "todo-" + this.todoIdCounter++;
-  this.todos.push(todo);
+Task.prototype.add = function(task) {
+  task.id = "todo-" + this.idCounter++;
+  this.tasks.push(task);
   this.onChange();
 };
 
 Task.prototype.remove = function(id) {
   var found = this.find(id);
   if (found) {
-    var foundIndex = this.todos.indexOf(found);
-    this.todos.splice(foundIndex, 1);
+    var foundIndex = this.tasks.indexOf(found);
+    this.tasks.splice(foundIndex, 1);
     this.onChange();
   }
 };
@@ -39,20 +39,20 @@ Task.prototype.toggle = function(id) {
 };
 
 Task.prototype.find = function(id) {
-  var filteredTodos = this.todos.filter(function(todo) {
-    return todo.id === id;
+  var filteredtasks = this.tasks.filter(function(task) {
+    return task.id === id;
   });
-  var found = filteredTodos[0];
+  var found = filteredtasks[0];
   return found;
 }
 
 Task.prototype.findAll = function() {
-  return this.todos;
+  return this.tasks;
 }
 
 Task.prototype.findOpen = function() {
-  return this.todos.filter(function(todo) {
-    return !todo.done;
+  return this.tasks.filter(function(task) {
+    return !task.done;
   });
 }
 
