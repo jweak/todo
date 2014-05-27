@@ -6,14 +6,14 @@ if (document.readyState == "complete") {
     if (document.readyState == "complete") {
       TodoStart();
     }
-  }
+  };
 }
 
 function Task() {
   this.tasks = [];
   this.idCounter = 0;
   this.listeners = [];
-};
+}
 
 Task.prototype.add = function(task) {
   task.id = "todo-" + this.idCounter++;
@@ -44,17 +44,17 @@ Task.prototype.find = function(id) {
   });
   var found = filteredtasks[0];
   return found;
-}
+};
 
 Task.prototype.findAll = function() {
   return this.tasks;
-}
+};
 
 Task.prototype.findOpen = function() {
   return this.tasks.filter(function(task) {
     return !task.done;
   });
-}
+};
 
 Task.prototype.addListener = function(listener) {
   this.listeners.push(listener);
@@ -86,7 +86,7 @@ function TodoApp(elementId) {
   this.listView.addToggleListener(this.onToggle.bind(this));
   this.textBox = new TextBox();
   this.textBox.addListener(this.onNewTodo.bind(this));
-};
+}
 
 TodoApp.prototype.onDelete = function(todoId) {
   this.tasks.remove(todoId);
@@ -112,19 +112,19 @@ TodoApp.prototype.render = function() {
   this.element.appendChild(this.textBox.render());
 };
 
-function TodoListView(todos) {
+function TodoListView() {
   this.element = document.createElement("ul");
-  this.element.className = "todo-list"
+  this.element.className = "todo-list";
   this.template = 
-    '<li class="todo-list-item light-border-bottom __DONE__" id="__ID__">\
-      <span class="dot"></span>\
-      <span class="text light-border-left">__TEXT__</span>\
-      <span class="delete"></span>\
-    </li>';
+    '<li class="todo-list-item light-border-bottom __DONE__" id="__ID__">' +
+      '<span class="dot"></span>' +
+      '<span class="text light-border-left">__TEXT__</span>' + 
+      '<span class="delete"></span>' +
+    '</li>';
   this.deleteListeners = [];
   this.toggleListeners = [];
   this.clickListener = this.onClick.bind(this);
-};
+}
 
 TodoListView.prototype.render = function(todos) {
   this.element.removeEventListener("click", this.clickListener, false);
@@ -147,7 +147,7 @@ TodoListView.prototype.generateHTML = function(todos) {
   }, "");
 
   return html;
-}
+};
 
 TodoListView.prototype.addDeleteListener = function(listener) {
   this.deleteListeners.push(listener);
@@ -171,11 +171,11 @@ TodoListView.prototype.onClick = function(event) {
   }
 };
 
-function TextBox(element) {
+function TextBox() {
   this.listeners = [];
   this.element = document.createElement("div");
   this.element.className = "textbox light-border-bottom";
-};
+}
 
 TextBox.prototype.addListener = function(listener) {
   this.listeners.push(listener);
