@@ -1,4 +1,3 @@
-// bootstrap
 if (document.readyState == "complete") {
   TodoStart();
 } else {
@@ -8,6 +7,10 @@ if (document.readyState == "complete") {
     }
   };
 }
+
+/**
+ * Task provides an interface for adding, removing and filtering tasks. 
+ */
 
 function Task() {
   this.tasks = [];
@@ -66,10 +69,16 @@ Task.prototype.onChange = function() {
   });
 };
 
+/**
+ * TodoApp is the app controller that holds the state of the app
+ * and reacts to events from the views.
+ */
+
 function TodoApp(elementId) {
   this.element = document.querySelector("." + elementId);
 
   this.tasks = new Task();
+
   /* Initial tasks */
   this.tasks.add({ 
     text: "Clean kitchen",
@@ -132,6 +141,11 @@ TodoApp.prototype.render = function() {
   this.filterView.render(this.filter === "all");
 };
 
+/*
+ * TodoListView renders the lists of the app and sends events
+ * if user clicks delete or toggles button
+ */
+
 function TodoListView() {
   this.element = document.createElement("ul");
   this.element.className = "todo-list";
@@ -173,8 +187,22 @@ TodoListView.prototype.addDeleteListener = function(listener) {
   this.deleteListeners.push(listener);
 };
 
+TodoListView.prototype.removeDeleteListener = function(listener) {
+  var index = this.deleteListeners.indexOf(listener);
+  if (index !== -1) {
+    this.deleteListeners.splice(index, 1);
+  }
+};
+
 TodoListView.prototype.addToggleListener = function(listener) {
   this.toggleListeners.push(listener);
+};
+
+TodoListView.prototype.removeToggleListener = function(listener) {
+  var index = this.toggleListeners.indexOf(listener);
+  if (index !== -1) {
+    this.toggleListeners.splice(index, 1);
+  }
 };
 
 TodoListView.prototype.onClick = function(event) {
@@ -191,6 +219,10 @@ TodoListView.prototype.onClick = function(event) {
   }
 };
 
+/**
+ * TextBoxView is a input view which sends an event after an enter keypress 
+ */
+
 function TextBoxView() {
   this.listeners = [];
   this.element = document.createElement("div");
@@ -201,12 +233,21 @@ TextBoxView.prototype.addListener = function(listener) {
   this.listeners.push(listener);
 };
 
+TextBoxView.prototype.removeListener = function(listener) {
+  var index = this.listeners.indexOf(listener);
+  if (index !== -1) {
+    this.listeners.splice(index, 1);
+  }
+};
+
 TextBoxView.prototype.render = function() {
   var input = this.getInputElement();
   if (input) {
     input.removeEventListener("keypress", this.onKeyPress.bind(this), false);
   }
-  this.element.innerHTML = '<div class="light-border-left margin-left-column"><input type="text" placeholder="Add a new task..."></input></div>';
+  this.element.innerHTML = '<div class="light-border-left margin-left-column">' + 
+                             '<input type="text" placeholder="Add a new task..."></input>' +
+                           '</div>';
   this.getInputElement().addEventListener("keypress", this.onKeyPress.bind(this), false);
   return this.element;
 };
@@ -227,6 +268,11 @@ TextBoxView.prototype.onKeyPress = function(event) {
   }
 };
 
+/**
+ * Filter view has a two buttons which the user can change 
+ * the filter applied to the shown tasks 
+ */
+
 function FilterView() {
   this.listeners = [];
   this.element = document.createElement("div");
@@ -238,6 +284,13 @@ function FilterView() {
 
 FilterView.prototype.addListener = function(listener) {
   this.listeners.push(listener);
+};
+
+FilterView.prototype.removeListener = function(listener) {
+  var index = this.listeners.indexOf(listener);
+  if (index !== -1) {
+    this.listeners.splice(index, 1);
+  }
 };
 
 FilterView.prototype.render = function(allTasks) {
